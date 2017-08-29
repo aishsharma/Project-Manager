@@ -12,23 +12,18 @@ class BaseModel(peewee.Model):
 class Project(BaseModel):
 	name = peewee.CharField(unique=True)
 	description = peewee.CharField()
-	status = peewee.CharField()
-	start_date = peewee.DateField(default=datetime.today())
-	end_date = peewee.DateField()
 
 	def dict(self):
 		return {
 			"id": self.id,
 			"name": self.name,
 			"description": self.description,
-			"status": self.status,
-			"start_date": self.start_date.strftime('%m/%d/%Y'),
-			"end_date": self.end_date.strftime('%m/%d/%Y')
+			"tasks": [task.dict() for task in self.tasks]
 		}
 
 
 class Task(BaseModel):
-	project = peewee.ForeignKeyField(Project)
+	project = peewee.ForeignKeyField(Project, related_name='tasks')
 	name = peewee.CharField(null=False)
 	details = peewee.TextField()
 	progress = peewee.IntegerField(default=0,

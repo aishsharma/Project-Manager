@@ -1,0 +1,39 @@
+<div class="card text-white bg-info mb-3">
+    <!-- <div class="card-header"> {{project.name}} </div> -->
+    <div class="card-body">
+        <h4 class="card-title"> {{project.name}} </h4>
+        <p class="card-text">
+            {{project.description}}
+        </p>
+    </div>
+</div>
+
+<!-- Table -->
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Progress</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#tasks}}
+
+        <tr>
+            <td> {{name}} </td>
+            <td> {{details}} </td>
+            <td> {{progress}} </td>
+            <td> {{start_date}} </td>
+            <td> {{end_date}} </td>
+        </tr>
+
+        {{/tasks}} {{^tasks}}
+        <tr>
+            <td colspan="5"> There are currently no tasks for this project. </td>
+        </tr>
+        {{/tasks}}
+    </tbody>
+</table>

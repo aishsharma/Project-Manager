@@ -1,6 +1,6 @@
 import datetime
 import json
-from typing import List, List
+from typing import List
 
 from bottle import Bottle, response, request
 
@@ -40,11 +40,13 @@ def new_project():
 		project.save()
 	except Exception as e:
 		print(e)
-		return {"status": False, "error": str(e), "data": {}}
+		message = {"status": False, "error": str(e), "data": {}}
+	else:
+		message = {"status": True, "error": {}, "data": {}}
 	finally:
 		db.close()
 
-	return {"status": True, "error": "", "data": {}}
+	return message
 
 
 @tracker.post('/api/task')
@@ -68,11 +70,13 @@ def new_task():
 		task.save()
 	except Exception as e:
 		print(e)
-		return {"status": False, "error": str(e), "data": {}}
+		message = {"status": False, "error": str(e), "data": {}}
+	else:
+		message = {"status": True, "error": {}, "data": {}}
 	finally:
 		db.close()
 
-	return {"status": True, "error": "", "data": {}}
+	return message
 
 
 @tracker.get('/api/project')
@@ -84,11 +88,13 @@ def get_projects():
 			projects.append(project.dict())
 	except Exception as e:
 		print(e)
-		return {"status": False, "error": str(e), "data": {}}
+		message = {"status": False, "error": str(e), "data": {}}
+	else:
+		message = {"status": True, "error": {}, "data": projects}
 	finally:
 		db.close()
 
-	return {"status": True, "error": "", "data": projects}
+	return message
 
 
 @tracker.get('/api/project/<project_id:int>')
@@ -98,11 +104,13 @@ def get_project(project_id: int):
 		project: Project = Project.get(Project.id == int(project_id))
 	except Exception as e:
 		print(e)
-		return {"status": False, "error": str(e), "data": {}}
+		message = {"status": False, "error": str(e), "data": {}}
+	else:
+		message = {"status": True, "error": {}, "data": project.dict()}
 	finally:
 		db.close()
 
-	return {"status": True, "error": "", "data": project.dict()}
+	return message
 
 
 @tracker.get('/api/projects/<project_id:int>/tasks')
@@ -114,8 +122,10 @@ def get_project_tasks(project_id: int):
 			tasks.append(task.dict())
 	except Exception as e:
 		print(e)
-		return {"status": False, "error": str(e), "data": {}}
+		message = {"status": False, "error": str(e), "data": {}}
+	else:
+		message = {"status": True, "error": {}, "data": tasks}
 	finally:
 		db.close()
 
-	return {"status": True, "error": "", "data": tasks}
+	return message
